@@ -1,24 +1,48 @@
-# README
+# Chat System API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Instabug backend challenge to build a chat system API using Ruby on Rails(V5)
 
-Things you may want to cover:
+## Getting Started
 
-* Ruby version
+These instructions will get you the project up and running on your local machine for development and testing purposes
 
-* System dependencies
+### Prerequisites
 
-* Configuration
+Install both docker and docker-compose on your local machine.
 
-* Database creation
+To make sure they were installed successfully, type the following on your terminal:
 
-* Database initialization
+```
+$ docker --version
+$ docker-compose --version
+```
 
-* How to run the test suite
 
-* Services (job queues, cache servers, search engines, etc.)
 
-* Deployment instructions
+## Setup
 
-* ...
+* change to the chat_system directory where we have our docker-compose.yml file
+
+```
+$ cd <path_to_docker-compose.yml>
+```
+
+* build the image
+
+```
+$ docker-compose build
+```
+
+* boot the app
+
+```
+$ docker-compose up -d
+```
+
+* You need to create and migrate the database
+
+```
+$ docker-compose run app rake db:create db:migrate
+```
+
+now you have all your services up and running.
