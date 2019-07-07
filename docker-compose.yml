@@ -6,8 +6,6 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE: 'db_development'
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'password'
       MYSQL_ROOT_PASSWORD: 'password'
     ports:
       # <Port exposed> : < MySQL Port running inside container>
@@ -25,6 +23,28 @@ services:
       - "3000:3000"
     depends_on:
       - db
+
+  # elasticsearch:
+  #   image: docker.elastic.co/elasticsearch/elasticsearch:6.3.2
+  #   environment:
+  #     - http.host=0.0.0.0
+  #     - transport.host=127.0.0.1
+  #     - cluster.name=docker-cluster
+  #     - bootstrap.memory_lock=true
+  #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  #   ulimits:
+  #     memlock:
+  #       soft: -1
+  #       hard: -1
+  #   ports:
+  #     - "9200:9200"
+  # # data visualization plugin for Elasticsearch
+  # kibana:
+  #   image: docker.elastic.co/kibana/kibana:6.3.2
+  #   ports:
+  #     - "5601:5601"
+  #   depends_on:
+  #     - elasticsearch
 
 volumes:
   my-db:
