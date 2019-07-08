@@ -60,21 +60,21 @@ This command will output all the logs since the container has been created, noti
 
 First make sure you have postman app on your local machine to be able to construct requests and read responses easily.
 
-`localhost:4000` is the main entry to our api service.
+`localhost:4000` is the main entry to our api service. For example, request will be in the form `localhost:4000/api/v1/applications`, where `/api/v1/applications` is the route for getting list of applications
 
 Following are the routes provided by our service, make sure to set the params and action of each request as stated
 
 ### Application
-* `GET /applications` => gets the list of all applications
-* `POST /applications?name=app_name` => creates an app with the name app_name provided in the params
-* `PUT /applications/:token`  => updates an app
+* `GET /api/v1/applications` => gets the list of all applications
+* `POST /api/v1/applications?name=app_name` => creates an app with the name app_name provided in the params
+* `PUT /api/v1/applications/:token`  => updates an app
 
 ### Chat
-* `GET /applications/:application_token/chats` => gets the list of all chats of a certain application
-* `POST /applications/:application_token/chats` => creates a chat for a certain application
-* `PUT /applications/:application_token/chats/:number`  => updates a chat of a certain application
+* `GET /api/v1/applications/:application_token/chats` => gets the list of all chats of a certain application
+* `POST //api/v1applications/:application_token/chats` => creates a chat for a certain application
+* `PUT /api/v1/applications/:application_token/chats/:number`  => updates a chat of a certain application
 
 ### Message
-* `GET /applications/:application_token/chats/:chat_number/messages` => gets the list of all messages of a certain chat and application
-* `POST /applications/:application_token/chats/:chat_number/messages` => creates a chat for a certain chat and application
-* `PUT /applications/:application_token/chats/:chat_number/messages/:number`  => updates a message of a certain chat and application
+* `GET /api/v1/applications/:application_token/chats/:chat_number/messages` => gets the list of all messages of a certain chat and application
+* `POST /api/v1/applications/:application_token/chats/:chat_number/messages` => creates a chat for a certain chat and application
+* `PUT /api/v1/applications/:application_token/chats/:chat_number/messages/:number`  => updates a message of a certain chat and application

@@ -2,13 +2,13 @@ class Api::V1::MessagesController < ApplicationController
   before_action :set_application_and_chat
   before_action :set_message, only: [:update]
 
-  # GET /applications/:application_token/chats/:chat_number/messages
+  # GET /api/v1/applications/:application_token/chats/:chat_number/messages
   def index
     @message = @chat.messages
     render json: @message, :except =>  [:id]
   end
 
-  # POST /applications/:application_token/chats/:chat_number/messages
+  # POST /api/v1/applications/:application_token/chats/:chat_number/messages
   def create
     # like create_by, except that if validations fail, raises a RecordInvalid error
     @message = @chat.messages.create!(chat_params)
@@ -16,7 +16,7 @@ class Api::V1::MessagesController < ApplicationController
     render json: @message, :except => [:id], status: :created
   end
 
-  # PUT /applications/:application_token/chats/:chat_number/messages/:number
+  # PUT /api/v1/applications/:application_token/chats/:chat_number/messages/:number
   def update
     if @message.update(chat_params)
       render json: @message, :except => [:id], status: :ok

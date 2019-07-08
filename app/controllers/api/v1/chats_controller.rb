@@ -3,20 +3,20 @@ class Api::V1::ChatsController < ApplicationController
   before_action :set_chat, only: [:update]
 
 
-  # GET /applications/:application_token/chats
+  # GET /api/v1/applications/:application_token/chats
   def index
     @chats = @application.chats
     render json: @chats, :except =>  [:id]
   end
 
-  # POST /applications/:application_token/chats
+  # POST /api/v1/applications/:application_token/chats
   def create
     # like create_by, except that if validations fail, raises a RecordInvalid error
     @chat = @application.chats.create!()
     render json: @chat, :except => [:id], status: :created
   end
 
-  # PUT /applications/:application_token/chats/:number
+  # PUT /api/v1/applications/:application_token/chats/:number
   def update
     if @chat.update(chat_params)
       render json: @chat, :except => [:id], status: :ok

@@ -1,13 +1,13 @@
 class Api::V1::ApplicationsController < ApplicationController
     before_action :set_application, only: [:update]
 
-    # GET /applications
+    # GET /api/v1/applications
     def index
      @apps = Application.all
      render json: @apps, :except =>  [:id], status: :ok
     end
 
-    # POST /applications?name=app_name
+    # POST /api/v1/applications?name=app_name
     def create
       @application = Application.new(application_params)
 
@@ -20,7 +20,7 @@ class Api::V1::ApplicationsController < ApplicationController
 
     end
 
-    # PUT /applications/:token
+    # PUT /api/v1/applications/:token
     def update
       if @application.update(application_params)
         render json: @application, :except => [:id], status: :ok
