@@ -21,28 +21,37 @@ $ docker-compose --version
 
 ## Setup
 
-* change to the chat_system directory where we have our docker-compose.yml file
-
+change to the chat_system directory where we have our docker-compose.yml file
 ```
 $ cd <path_to_docker-compose.yml>
 ```
 
-* build the image
-
+build the image
 ```
 $ docker-compose build
 ```
 
-* boot the app
-
+boot the services. The scale flag create 2 instances if the app services
 ```
-$ docker-compose up -d
+$ docker-compose up -d --scale app=2
 ```
 
-* You need to create and migrate the database
-
+You need to create and migrate the database
 ```
 $ docker-compose run app rake db:create db:migrate
 ```
 
 now you have all your services up and running.
+
+## Testing
+
+To check running container, type the following on your terminal:
+```
+$ docker ps
+```
+
+To check the logs of the container
+```
+$ docker-compose logs app
+```
+This command will output all the logs since the container has been created, notice how you can now see that the nginx is load balancing on both app instances.
