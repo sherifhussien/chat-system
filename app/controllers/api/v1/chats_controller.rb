@@ -16,7 +16,7 @@ class Api::V1::ChatsController < ApplicationController
     render json: @chat, :except => [:id], status: :created
   end
 
-  # PUT /applications/:applicationn_token/chats/:number
+  # PUT /applications/:application_token/chats/:number
   def update
     if @chat.update(chat_params)
       render json: @chat, :except => [:id], status: :ok

@@ -7,7 +7,7 @@ class Api::V1::ApplicationsController < ApplicationController
      render json: @apps, :except =>  [:id], status: :ok
     end
 
-    # POST /applications
+    # POST /applications?name=app_name
     def create
       @application = Application.new(application_params)
 

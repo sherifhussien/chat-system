@@ -16,7 +16,7 @@ class Api::V1::MessagesController < ApplicationController
     render json: @message, :except => [:id], status: :created
   end
 
-  # PUT /applications/:applicationn_token/chats/:chat_number/messages/:number
+  # PUT /applications/:application_token/chats/:chat_number/messages/:number
   def update
     if @message.update(chat_params)
       render json: @message, :except => [:id], status: :ok

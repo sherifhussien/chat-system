@@ -31,7 +31,7 @@ build the image
 $ docker-compose build
 ```
 
-boot the services. The scale flag create 2 instances if the app services
+boot the services. The scale flag create 2 instances of the app service
 ```
 $ docker-compose up -d --scale app=2
 ```
@@ -43,7 +43,7 @@ $ docker-compose run app rake db:create db:migrate
 
 now you have all your services up and running.
 
-## Testing
+### Testing
 
 To check running container, type the following on your terminal:
 ```
@@ -55,3 +55,26 @@ To check the logs of the container
 $ docker-compose logs app
 ```
 This command will output all the logs since the container has been created, notice how you can now see that the nginx is load balancing on both app instances.
+
+## How to use
+
+First make sure you have postman app on your local machine to be able to construct requests and read responses easily.
+
+`localhost:4000` is the main entry to our api service.
+
+Following are the routes provided by our service, make sure to set the params and action of each request as stated
+
+### Application
+* `GET /applications` => gets the list of all applications
+* `POST /applications?name=app_name` => creates an app with the name app_name provided in the params
+* `PUT /applications/:token`  => updates an app
+
+### Chat
+* `GET /applications/:application_token/chats` => gets the list of all chats of a certain application
+* `POST /applications/:application_token/chats` => creates a chat for a certain application
+* `PUT /applications/:application_token/chats/:number`  => updates a chat of a certain application
+
+### Message
+* `GET /applications/:application_token/chats/:chat_number/messages` => gets the list of all messages of a certain chat and application
+* `POST /applications/:application_token/chats/:chat_number/messages` => creates a chat for a certain chat and application
+* `PUT /applications/:application_token/chats/:chat_number/messages/:number`  => updates a message of a certain chat and application
