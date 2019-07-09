@@ -1,6 +1,6 @@
 # Chat System API
 
-Instabug backend challenge to build a chat system API using Ruby on Rails(V5)
+Build a chat system API using Ruby on Rails(V5)
 
 ## Getting Started
 
@@ -34,6 +34,8 @@ $ docker-compose build
 boot the services. The scale flag create 2 instances of the app service
 ```
 $ docker-compose up -d --scale app=2
+or
+$ docker-compose up --scale app=2 
 ```
 
 You need to create and migrate the database
@@ -45,16 +47,18 @@ now you have all your services up and running.
 
 ### Testing
 
-To check running container, type the following on your terminal:
+To check running containers, type the following on your terminal:
 ```
 $ docker ps
 ```
 
-To check the logs of the container
+if you docker-compose is running on the background, you can check the logs of the app container using the following command
 ```
 $ docker-compose logs app
 ```
 This command will output all the logs since the container has been created, notice how you can now see that the nginx is load balancing on both app instances.
+
+For __RabbitMQ__, you can access its GUI from your browser via `http://localhost:15672` with user:password
 
 ## How to use
 

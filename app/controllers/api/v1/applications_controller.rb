@@ -3,8 +3,9 @@ class Api::V1::ApplicationsController < ApplicationController
 
     # GET /api/v1/applications
     def index
-     @apps = Application.all
-     render json: @apps, :except =>  [:id], status: :ok
+      @apps = Application.all
+      Publisher.publish("applications", @apps.to_json)
+      # render json: @apps, :except =>  [:id], status: :ok
     end
 
     # POST /api/v1/applications?name=app_name

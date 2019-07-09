@@ -25,6 +25,7 @@ services:
       - "3000"
     depends_on:
       - db
+      - rabbitmq
 
   nginx:
     image: nginx:latest
@@ -35,18 +36,36 @@ services:
     ports:
       - "4000:4000"
 
+  rabbitmq:
+    # This variant is built on Alpine Linux and includes the management UI.
+    image: 'rabbitmq:3.6-management-alpine'
+    ports:
+      # The standard AMQP protocol port
+      - '5672:5672'
+      # HTTP management UI
+      - '15672:15672'
+    environment:
+        RABBITMQ_DEFAULT_USER: 'user'
+        RABBITMQ_DEFAULT_PASS: 'password'
+
+
+
   # elasticsearch:
   #   image: docker.elastic.co/elasticsearch/elasticsearch:6.3.2
   #   environment:
-  #     - http.host=0.0.0.0
-  #     - transport.host=127.0.0.1
   #     - cluster.name=docker-cluster
   #     - bootstrap.memory_lock=true
   #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  #     - xpack.security.enabled=false
+  #     - xpack.monitoring.enabled=false
+  #     - xpack.graph.enabled=false
+  #     - xpack.watcher.enabled=false
   #   ulimits:
   #     memlock:
   #       soft: -1
   #       hard: -1
+  #   volumes:
+  #     - ./docker_data/elasticsearch/data:/usr/share/elasticsearch/data
   #   ports:
   #     - "9200:9200"
 
