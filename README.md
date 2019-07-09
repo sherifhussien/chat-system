@@ -35,7 +35,7 @@ boot the services. The scale flag create 2 instances of the app service
 ```
 $ docker-compose up -d --scale app=2
 or
-$ docker-compose up --scale app=2 
+$ docker-compose up --scale app=2
 ```
 
 You need to create and migrate the database
@@ -82,3 +82,6 @@ Following are the routes provided by our service, make sure to set the params an
 * `GET /api/v1/applications/:application_token/chats/:chat_number/messages` => gets the list of all messages of a certain chat and application
 * `POST /api/v1/applications/:application_token/chats/:chat_number/messages` => creates a chat for a certain chat and application
 * `PUT /api/v1/applications/:application_token/chats/:chat_number/messages/:number`  => updates a message of a certain chat and application
+
+### Search with ElasticSearch
+* `GET /api/v1/search?q=search_value` => searches the content of the messages for the search_value

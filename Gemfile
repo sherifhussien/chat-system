@@ -10,8 +10,7 @@ gem 'mysql2', '>= 0.4.4', '< 0.6.0'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Elastic Search
-# gem 'elasticsearch-model'
-# gem 'elasticsearch-rails'
+gem 'elasticsearch-model'
 # RabbitMQ
 gem 'bunny'
 
