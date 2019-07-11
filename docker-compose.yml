@@ -14,9 +14,9 @@ services:
       - my-db:/var/lib/mysql
 
   app:
-    env_file: ../chat_system/.env
+    env_file: ./chat-system/.env
     # build: ./chat_system
-    build: ../chat-system
+    build: ./chat-system
     command: bundle exec rails s -p 3000 -b '0.0.0.0'
     volumes:
       - .:/myapp
@@ -29,9 +29,9 @@ services:
       - rabbitmq
 
   worker:
-    env_file: ../worker/.env
+    env_file: ./worker/.env
     # build: ./worker
-    build: ../worker
+    build: ./worker
     command: bundle exec rails s -p 3001 -b '0.0.0.0'
     volumes:
       - .:/worker
