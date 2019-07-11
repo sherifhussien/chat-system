@@ -88,4 +88,4 @@ Following are the routes provided by our service, make sure to set the params an
 * `PUT /api/v1/applications/:application_token/chats/:chat_number/messages/:number`  => updates a message of a certain chat and application {params: content}
 
 ### Search with ElasticSearch
-* `GET /api/v1/search?q=search_value` => searches the content of the messages for the search_value {params: content, application_token, chat_number}
+* `GET /api/v1/search?q=what&application_token=xCK63vWJwtJjpyNQthazEMcy&chat_number=1` => searches the content of the messages for the search_value {params: q, application_token, chat_number}
