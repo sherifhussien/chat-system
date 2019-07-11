@@ -5,10 +5,3 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-
-Application.destroy_all
-
-# a = Application.create([{name: 'messenger'}, {name: 'whatsapp'}])
-# a.first.chats.create(number: 1, message_count: 20)
-# a.first.chats.create(number: 2, message_count: 204)
-# a.last.chats.create(number: 1, message_count: 54)

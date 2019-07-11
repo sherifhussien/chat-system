@@ -33,9 +33,11 @@ class Handler
   end
 
   def self.getAllChats(request)
+    @application = Application.find_by(token: request['attributes']['application_token'])
+
     response = {}
     response['success'] = true
-    response['payload'] = Chat.all
+    response['payload'] = @application.chats
     return response
   end
 
@@ -65,8 +67,10 @@ class Handler
   end
 
   def self.getAllMessages(request)
+    @application = Application.find_by(token: request['attributes']['application_token'])
+    @chat = Chat.find_by!(number: request['attributes']['chat_number'])
     response = {}
-    response['payload'] = Message.all
+    response['payload'] = @chat.messages
     response['success'] = true
     return response
   end

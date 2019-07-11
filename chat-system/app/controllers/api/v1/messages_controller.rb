@@ -3,7 +3,10 @@ class Api::V1::MessagesController < ApplicationController
   def index
     message = {
       "action":"getAllMessages",
-      "attributes":{}
+      "attributes":{
+        "application_token": params[:application_token],
+        "chat_number": params[:chat_number]
+      }
     }
 
     res = JSON.parse(Publisher.publish("chat_system.worker", message))

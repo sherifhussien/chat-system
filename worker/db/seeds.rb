@@ -6,5 +6,4 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-Application.delete_all
-Application.create([{ name: 'whatsapp' }, { name: 'messenger' }])
+apps = Application.create([{ name: 'whatsapp' }, { name: 'messenger' }])

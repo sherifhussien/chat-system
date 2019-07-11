@@ -4,7 +4,9 @@ class Api::V1::ChatsController < ApplicationController
   def index
     message = {
       "action":"getAllChats",
-      "attributes":{}
+      "attributes":{
+        "application_token": params[:application_token]
+      }
     }
 
     res = JSON.parse(Publisher.publish("chat_system.worker", message))
