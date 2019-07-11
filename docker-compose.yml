@@ -1,0 +1,88 @@
+version: "3"
+
+services:
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      # MYSQL_DATABASE: 'db_development'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      # <Port exposed> : <MySQL Port running inside container>
+      - '3306:3306'
+    volumes:
+      - my-db:/var/lib/mysql
+
+  app:
+    env_file: ../chat_system/.env
+    # build: ./chat_system
+    build: ../chat-system
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    volumes:
+      - .:/myapp
+    # NGINX service will handle the requests and forward them to a app service, we don’t need to map the port 3000 from the app services to a host machine port
+    # we can remove the port mapping configuration from our Docker Compose file and only expose the port 5000 to linked services
+    expose:
+      - "3000"
+    depends_on:
+      - db
+      - rabbitmq
+
+  worker:
+    env_file: ../worker/.env
+    # build: ./worker
+    build: ../worker
+    command: bundle exec rails s -p 3001 -b '0.0.0.0'
+    volumes:
+      - .:/worker
+    expose:
+      - "3001"
+    depends_on:
+      - db
+      - rabbitmq
+      - app
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - app
+    ports:
+      - "4000:4000"
+
+  rabbitmq:
+    # This variant is built on Alpine Linux and includes the management UI.
+    image: 'rabbitmq:3.6-management-alpine'
+    ports:
+      # The standard AMQP protocol port
+      - '5672:5672'
+      # HTTP management UI
+      - '15672:15672'
+    environment:
+        RABBITMQ_DEFAULT_USER: 'user'
+        RABBITMQ_DEFAULT_PASS: 'password'
+
+
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.3.2
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - xpack.security.enabled=false
+      - xpack.monitoring.enabled=false
+      - xpack.graph.enabled=false
+      - xpack.watcher.enabled=false
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./docker_data/elasticsearch/data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+
+volumes:
+  my-db:
