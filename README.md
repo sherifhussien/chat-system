@@ -21,7 +21,7 @@ $ docker-compose --version
 
 ## Setup
 
-change to the chat_system directory where we have our docker-compose.yml file
+change to the chat-system directory where we have our docker-compose.yml file
 ```
 $ cd <path_to_docker-compose.yml>
 ```
@@ -43,6 +43,12 @@ You need to create and migrate the database
 $ docker-compose run app rake db:create db:migrate
 ```
 
+Open another terminal and change directory to the chat-system directory where we have our docker-compose file and run the following
+```
+docker-compose run worker rake sneakers:run
+```
+
+make sure that every command has finished executing before proceeding to avoid errors as they would be used by other commands.
 now you have all your services up and running.
 
 ### Testing
@@ -70,18 +76,18 @@ Following are the routes provided by our service, make sure to set the params an
 
 ### Application
 * `GET /api/v1/applications` => gets the list of all applications
-* `POST /api/v1/applications?name=app_name` => creates an app with the name app_name provided in the params
+* `POST /api/v1/applications?name=app_name` => creates an app with the name app_name provided in the params {params: name}
 * `PUT /api/v1/applications/:token`  => updates an app
 
 ### Chat
 * `GET /api/v1/applications/:application_token/chats` => gets the list of all chats of a certain application
-* `POST //api/v1applications/:application_token/chats` => creates a chat for a certain application
-* `PUT /api/v1/applications/:application_token/chats/:number`  => updates a chat of a certain application
+* `POST /api/v1applications/:application_token/chats` => creates a chat for a certain application
+* `PUT /api/v1/applications/:application_token/chats/:number`  => updates the content a chat of a certain application {params: messages_count}
 
 ### Message
 * `GET /api/v1/applications/:application_token/chats/:chat_number/messages` => gets the list of all messages of a certain chat and application
 * `POST /api/v1/applications/:application_token/chats/:chat_number/messages` => creates a chat for a certain chat and application
-* `PUT /api/v1/applications/:application_token/chats/:chat_number/messages/:number`  => updates a message of a certain chat and application
+* `PUT /api/v1/applications/:application_token/chats/:chat_number/messages/:number`  => updates a message of a certain chat and application {params: content}
 
 ### Search with ElasticSearch
-* `GET /api/v1/search?q=search_value` => searches the content of the messages for the search_value
+* `GET /api/v1/search?q=search_value` => searches the content of the messages for the search_value {params: content, application_token, chat_number}

@@ -8,7 +8,7 @@ class Api::V1::ChatsController < ApplicationController
     }
 
     res = JSON.parse(Publisher.publish("chat_system.worker", message))
-    render json: res['payload'], :except =>  ["id"], status: :ok
+    render json: res['payload'], :except =>  ["id", "application_id"], status: :ok
   end
 
   # # POST /api/v1/applications/:application_token/chats
@@ -21,7 +21,7 @@ class Api::V1::ChatsController < ApplicationController
     }
     res = JSON.parse(Publisher.publish("chat_system.worker", message))
     if res['success']
-      render json: res['payload'], :except =>  ["id"], status: :created
+      render json: res['payload'], :except =>  ["id", "application_id"], status: :created
     else
       render json: res['payload'], status: :bad_request
     end
@@ -42,7 +42,7 @@ class Api::V1::ChatsController < ApplicationController
     res = JSON.parse(Publisher.publish("chat_system.worker", message))
 
     if res['success']
-      render json: res['payload'], :except =>  ["id"], status: :ok
+      render json: res['payload'], :except =>  ["id", "application_id"], status: :ok
     else
       render json: res['payload'], status: :bad_request
     end

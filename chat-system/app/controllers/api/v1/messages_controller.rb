@@ -7,7 +7,7 @@ class Api::V1::MessagesController < ApplicationController
     }
 
     res = JSON.parse(Publisher.publish("chat_system.worker", message))
-    render json: res['payload'], :except =>  ["id"], status: :ok
+    render json: res['payload'], :except =>  ["id", "application_id", "chat_id"], status: :ok
   end
 
   # POST /api/v1/applications/:application_token/chats/:chat_number/messages
@@ -16,12 +16,13 @@ class Api::V1::MessagesController < ApplicationController
       "action":"createMessage",
       "attributes":{
         "application_token": params[:application_token],
-        "chat_number": params[:chat_number]
+        "chat_number": params[:chat_number],
+        "content": params[:content]
       }
     }
     res = JSON.parse(Publisher.publish("chat_system.worker", message))
     if res['success']
-      render json: res['payload'], :except =>  ["id"], status: :created
+      render json: res['payload'], :except =>  ["id", "application_id", "chat_id"], status: :created
     else
       render json: res['payload'], status: :bad_request
     end
@@ -42,7 +43,7 @@ class Api::V1::MessagesController < ApplicationController
     res = JSON.parse(Publisher.publish("chat_system.worker", message))
 
     if res['success']
-      render json: res['payload'], :except =>  ["id"], status: :ok
+      render json: res['payload'], :except =>  ["id", "application_id", "chat_id"], status: :ok
     else
       render json: res['payload'], status: :bad_request
     end

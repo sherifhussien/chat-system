@@ -9,71 +9,48 @@ class ApplicationsWorker
     request = JSON.parse(msg)
 
     response = {}
-    response['success'] = true
     if request["action"] == "getAllApplications"
 
-      response['payload'] = Application.all
+      response = Handler.getAllApplications(request)
 
     elsif request["action"] == "createApplication"
 
-      @application = Application.new({name: request['attributes']['name']})
-      if @application.save
-        response['payload'] = @application
-      else
-        response['payload'] = @application.errors
-        response['success'] = false
-      end
+      response = Handler.createApplication(request)
 
     elsif request["action"] == "updateApplication"
 
-      @application = Application.find_by(token: request['attributes']['token'])
-      if @application.update({name: request['attributes']['name']})
-        response['payload'] = @application
-      else
-        response['payload'] = @application.errors
-        response['success'] = false
+      response = Handler.updateApplication(request)
 
-      end
     elsif request["action"] == "getAllChats"
-      response['payload'] = Chat.all
+
+      response = Handler.getAllChats(request)
+
     elsif request["action"] == "createChat"
 
-      @application = Application.find_by(token: request['attributes']['application_token'])
-      @chat = @application.chats.create!()
-      response['payload'] = @chat
+      response = Handler.createChat(request)
 
     elsif request["action"] == "updateChat"
 
-      @application = Application.find_by(token: request['attributes']['application_token'])
-      @chat = @application.chats.find_by!(number: request['attributes']['number']) if @application
-      if @chat.update({messages_count: request['attributes']['messages_count']})
-        response['payload'] = @chat
-      else
-        response['payload'] = @chat.errors
-        response['success'] = false
-      end
+      response = Handler.updateChat(request)
+
 
     elsif request["action"] == "getAllMessages"
-      response['payload'] = Message.all
+
+      response = Handler.getAllMessages(request)
+
     elsif request["action"] == "createMessage"
 
-      @application = Application.find_by(token: request['attributes']['application_token'])
-      @chat = Chat.find_by!(number: request['attributes']['chat_number'])
-      @message = @chat.messages.create!({content: request['attributes']['content']})
-      response['payload'] = @message
+      response = Handler.createMessage(request)
+
 
     elsif request["action"] == "updateMessage"
 
-      @application = Application.find_by(token: request['attributes']['application_token'])
-      @chat = @application.chats.find_by!(number: request['attributes']['chat_number']) if @application
-      @message = @chat.messages.find_by!(number: request['attributes']['number']) if @chat
+      response = Handler.updateMessage(request)
 
-      if @message.update({content: request['attributes']['content']})
-        response['payload'] = @message
-      else
-        response['payload'] = @message.errors
-        response['success'] = false
-      end
+    elsif request["action"] == "searchMessages"
+
+      response = Handler.searchMessages(request)
+
     end
 
 
