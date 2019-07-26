@@ -1,6 +1,6 @@
 class Chat < ApplicationRecord
   before_create :set_count
-  before_create :set_number
+  before_create :increment_chats_count
 
   # model association
   belongs_to :application
@@ -12,10 +12,8 @@ class Chat < ApplicationRecord
       self.messages_count = 0
     end
 
-    def set_number
-      self.application.chats_count = self.application.chats_count+1
-      self.application.save
-      self.number = self.application.chats_count
-
+    def increment_chats_count
+      self.application.increment!(:chats_count)
     end
+
 end

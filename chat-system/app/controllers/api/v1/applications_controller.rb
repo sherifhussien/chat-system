@@ -1,14 +1,9 @@
 class Api::V1::ApplicationsController < ApplicationController
     # GET /api/v1/applications
     def index
-      message = {
-        "action":"getAllApplications",
-        "attributes":{}
-      }
-
-      res = JSON.parse(Publisher.publish("chat_system.worker", message))
-      render json: res['payload'], :except =>  ["id"], status: :ok
-    end
+      @applications = fetch_applications_redis
+      render json: @applications, :except =>  ["id"], status: :ok
+     end
 
     # POST /api/v1/applications?name=app_name
     def create
@@ -18,15 +13,14 @@ class Api::V1::ApplicationsController < ApplicationController
           "name": params[:name]
         }
       }
-      res = JSON.parse(Publisher.publish("chat_system.worker", message))
-      puts res
-      puts res['success']
-      if res['success']
-        render json: res['payload'], :except =>  ["id"], status: :created
-      else
-        render json: res['payload'], status: :bad_request
-      end
 
+      Publisher.publish("chat_system.worker", message)
+
+      response = {
+        "message":"created application with name: #{params[:name]}"
+      }
+
+      render json: response, :except =>  ["id"], status: :created
     end
 
     # PUT /api/v1/applications/:token
@@ -38,13 +32,24 @@ class Api::V1::ApplicationsController < ApplicationController
           "name": params[:name]
         }
       }
-      res = JSON.parse(Publisher.publish("chat_system.worker", message))
+      Publisher.publish("chat_system.worker", message)
 
-      if res['success']
-        render json: res['payload'], :except =>  ["id"], status: :ok
-      else
-        render json: res['payload'], status: :bad_request
+      response = {
+        "message":"updated application #{params[:token]} with name: #{params[:name]}"
+      }
+
+      render json: response, status: :ok
+    end
+
+    def fetch_applications_redis
+      applications = $redis.get("applications")  #This line requests redis-server to accepts any value associate with articles key
+      if applications.nil?  #this condition will executes if any articles not available on redis server
+        applications = Application.all.to_json
+        $redis.set("applications", applications)
+        $redis.expire("applications", 10.seconds.to_i)
       end
+
+      JSON.load applications #This will converts JSON data to Ruby Hash
     end
 
 end

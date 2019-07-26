@@ -40,8 +40,8 @@ $ docker-compose up --scale app=2
 
 Open another terminal and change directory to the chat-system directory where we have our docker-compose file and run the following
 ```
-$ docker-compose run worker bin/rails db:environment:set RAILS_ENV=development
 $ docker-compose run worker rake db:create db:migrate db:seed
+$ docker-compose run worker bin/rails db:environment:set RAILS_ENV=development
 $ docker-compose run worker rake sneakers:run
 ```
 
